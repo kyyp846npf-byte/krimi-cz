@@ -1,0 +1,148 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Zprávy z krajů</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: sticky řada krajů s písmenem SPZ, pod ní mřížka karet; písmeno SPZ je poznávací znak kraje */
+:root{
+  --bg:#eef1f5;
+  --surface:#ffffff;
+  --ink:#14213a;
+  --muted:#5a667c;
+  --line:#d5dbe5;
+  --accent:#c8102e;
+  --accent-ink:#ffffff;
+  --plate:#14213a;
+  --plate-ink:#ffffff;
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1626;--surface:#17233a;--ink:#e8edf6;--muted:#9aa7bd;--line:#2a3a56;
+    --accent:#ff5a70;--accent-ink:#0e1626;--plate:#e8edf6;--plate-ink:#0e1626;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1626;--surface:#17233a;--ink:#e8edf6;--muted:#9aa7bd;--line:#2a3a56;
+  --accent:#ff5a70;--accent-ink:#0e1626;--plate:#e8edf6;--plate-ink:#0e1626;color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));
+}
+.wrap{max-width:1180px;margin-inline:auto}
+header{padding-block:32px 20px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:end;justify-content:space-between}
+h1{font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:clamp(2.4rem,7vw,4.2rem);line-height:.95;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1 span{color:var(--accent)}
+.stamp{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);text-align:right;min-width:0}
+.stamp b{color:var(--ink);font-weight:500;display:block}
+nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);
+  padding-block:10px;border-block:1px solid var(--line);
+}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.chip{
+  flex:none;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  font:600 .88rem var(--f-body);padding:5px 12px 5px 5px;border-radius:999px;cursor:pointer;
+}
+.chip:hover{border-color:var(--ink)}
+.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .n{font-family:var(--f-mono);font-size:.74rem;opacity:.65}
+.plate{
+  display:inline-grid;place-items:center;width:26px;height:26px;border-radius:5px;
+  background:var(--plate);color:var(--plate-ink);font:900 .95rem var(--f-display);
+  box-shadow:inset 0 0 0 2px var(--plate-ink),inset 0 0 0 3px var(--plate);
+}
+.chip[aria-pressed="true"] .plate{background:var(--bg);color:var(--ink);box-shadow:none}
+.chip.all .plate{font-size:.7rem}
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px;padding-block:24px 40px;
+}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;
+  display:flex;flex-direction:column;gap:10px;min-width:0;
+}
+.card .top{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.card h2{font-family:var(--f-display);font-weight:800;font-stretch:90%;font-size:1.28rem;line-height:1.15;margin:0;text-wrap:balance}
+.card p{margin:0;color:var(--muted);flex:1;max-width:65ch}
+.card a.more{
+  align-self:flex-start;color:var(--accent);font-weight:600;text-decoration:none;
+  border-bottom:2px solid currentColor;padding-bottom:1px;
+}
+.card a.more:hover{color:var(--ink)}
+.card a.more:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.lead{grid-column:1/-1}
+.lead h2{font-size:clamp(1.6rem,4vw,2.3rem)}
+.lead p{font-size:1.08rem}
+footer{border-top:1px solid var(--line);padding-block:20px 40px;color:var(--muted);font-size:.85rem;max-width:70ch}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}.card:hover{border-color:var(--ink)}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Zprávy<br>z <span>krajů</span></h1>
+    <div class="stamp"><b>Stav k 8. 11. 2026, 18:45</b>20 zpráv z 14 krajů<br>zdroj: ČT24 a ČTK</div>
+  </header>
+  <nav aria-label="Výběr kraje"><div class="chips" id="chips"></div></nav>
+  <main class="grid" id="grid" aria-live="polite"></main>
+  <footer>Shrnutí jsou napsaná vlastními slovy podle regionálních rubrik ČT24. Odkaz u každé zprávy vede na původní článek.</footer>
+</div>
+
+<script>
+var R={
+ A:"Praha",C:"Jihočeský kraj",B:"Jihomoravský kraj",K:"Karlovarský kraj",J:"Vysočina",H:"Královéhradecký kraj",
+ L:"Liberecký kraj",T:"Moravskoslezský kraj",M:"Olomoucký kraj",E:"Pardubický kraj",P:"Plzeňský kraj",
+ S:"Středočeský kraj",U:"Ústecký kraj",Z:"Zlínský kraj"
+};
+var B="https://ct24.ceskatelevize.cz/clanek/";
+var N=[
+ {r:"A",t:"Výpadek proudu v Praze zasáhl nemocnice i sněmovnu",s:"Pražská energetika obnovila dodávky po poruše v Praze 5, 6 a na Malé Straně. Stály tramvaje a Poslanecká sněmovna musela na čas přerušit jednání.",u:"domaci/prahu-5-a-6-zasahl-vypadek-elektrickeho-proudu-379343"},
+ {r:"A",t:"Ve škole v Újezdě nad Lesy se po salmonele znovu vaří",s:"Kuchyň byla před šesti týdny zavřená kvůli epidemii, která zasáhla asi pět set lidí. Část rodičů chce odchod ředitele a podala petici.",u:"regiony/hlavni-mesto-praha/ve-skole-v-ujezde-nad-lesy-se-znovu-vari-cast-rodicu-chce-konec-reditele-379329"},
+ {r:"C",t:"České Budějovice má vést koalice čtyř uskupení",s:"Primátorem má být Tomáš Chovanec z HOPB/STAN. Vítězné Naše Česko zůstane s ODS v opozici, Budějovice byly posledním krajským městem bez dohody.",u:"regiony/jihocesky-kraj/ceske-budejovice-ma-vest-koalice-ctyr-subjektu-vitezne-nase-cesko-bude-v-opozici-379348"},
+ {r:"C",t:"Hladina Lipna kvůli suchu klesla o 3,5 metru",s:"Povodí Vltavy přesto povolilo odběr vody pro zasněžování sjezdovek. Skiareál Lipno bere vodu přímo z nádrže.",u:"regiony/hladina-lipna-kvuli-suchu-vyrazne-klesla-povodi-presto-povolilo-zasnezovat-sjezdovky-379357"},
+ {r:"B",t:"Brněnský soud schválil dohody v kauze městských bytů",s:"Dva lidé dostali podmíněné tresty za zmanipulované přidělování bytů v Brně-středu. Rozsudek je pravomocný.",u:"regiony/soud-v-brne-schvalil-dve-dohody-v-pripadu-zmanipulovaneho-pridelovani-mestskych-bytu-379306"},
+ {r:"P",t:"Armáda oplocuje kontaminované území na Šumavě",s:"V bývalém prostoru Dobrá Voda zůstává asi dvě stě sudů s chemikáliemi a tisíc tun znečištěné zeminy. Sanace má začít ještě na podzim.",u:"regiony/plzensky-kraj/armada-oplocuje-kontaminovane-uzemi-na-sumave-378842"},
+ {r:"U",t:"Jedno Ústí chce zrušit všechny čtyři městské obvody",s:"Koalice sedmi stran se na kroku shodla. O zrušení rozhodne zastupitelstvo, někteří starostové obvodů chtějí referendum.",u:"regiony/ustecky-kraj/koalice-jedno-usti-se-shodla-na-zruseni-mestskych-obvodu-v-usti-nad-labem-378955"},
+ {r:"U",t:"V Postoloprtech začala policie trestní řízení kvůli ostatkům",s:"Nález v areálu bývalých kasáren prověřuje Úřad dokumentace a vyšetřování zločinů komunismu pro podezření z vraždy.",u:"domaci/kvuli-nalezu-ostatku-v-postoloprtech-zahajila-policie-ukony-trestniho-rizeni-379121"},
+ {r:"S",t:"Kladno povede koalice VPK, ANO a ODS",s:"Primátorem má zůstat Milan Volf. Koalice má 21 z 33 mandátů, uskupení Kladeňáci chce výsledky voleb nechat přezkoumat soudem.",u:"regiony/kladno-povede-koalice-volby-pro-kladno-ano-a-ods-primatorem-ma-byt-nadale-volf-378778"},
+ {r:"T",t:"Šestimilionová pokuta za nehodu v Dolní Lutyni",s:"Soud v Karviné potrestal firmu, dispečera a řidiče po srážce vlaku s nákladním autem v lednu 2024. Rozsudek není pravomocný.",u:"domaci/sestimilionova-pokuta-i-zakaz-rizeni-soud-rozdal-tresty-za-nehodu-v-dolni-lutyni-379314"},
+ {r:"T",t:"Spor o Heřmanické haldy: škody mohou jít do miliard",s:"Reportéři ČT zkoumali zásah ministerstva životního prostředí v neprospěch státního podniku Diamo. Věc prověřuje NCOZ.",u:"regiony/moravskoslezsky-kraj/sporny-zasah-resortu-v-kauze-hermanicke-haldy-zkoumali-reporteri-ct-skody-muzou-jit-do-miliard-379248"},
+ {r:"M",t:"Hluk z dálničního mostu u Dluhonic zmírní speciální kryt",s:"Kryt za 5,5 milionu korun má snížit hluk o 15 až 18 decibelů. Zaplatila ho přerovská radnice, instaluje ŘSD.",u:"regiony/hluk-z-dalnicniho-mostu-u-dluhonic-zmirni-specialni-kryt-379061"},
+ {r:"Z",t:"Onsemi ruší rozšíření závodu v Rožnově",s:"Americký výrobce polovodičů zrušil investici za dva miliardy dolarů kvůli vývoji na trhu. Ministr průmyslu tvrdí, že výroba v Česku pokračuje.",u:"domaci/firma-onsemi-rusi-plany-na-rozsireni-vyroby-v-roznovskem-zavode-379368"},
+ {r:"Z",t:"Policie obvinila exposlankyni Balaštíkovou",s:"Jde o podezření z ovlivňování kontrol zlínské krajské hygienické stanice. Stíhané jsou celkem tři osoby, vinu odmítá.",u:"domaci/policie-obvinila-exposlankyni-balastikovou-z-ovlivnovani-zlinske-hygieny-379163"},
+ {r:"L",t:"Geopark Český ráj přijde o značku UNESCO",s:"Rada globálních geoparků ho vyloučila kvůli nevyřešenému prodeji drahých kamenů nejasného původu. Značku nesmí používat od Nového roku.",u:"kultura/geopark-cesky-raj-prijde-o-znacku-unesco-nevyresil-problem-s-prodejem-kamenu-379307"},
+ {r:"H",t:"Odboráři KRNAP vyhlásili stávkovou pohotovost",s:"Požadují schůzku s ředitelem Petrem Moravcem. Před budovou správy ve Vrchlabí se sešlo protestní shromáždění.",u:"regiony/odborari-krnap-vyhlasili-stavkovou-pohotovost-379272"},
+ {r:"H",t:"V Peci pod Sněžkou hořel hotel Hořec",s:"Škoda je asi 15 milionů korun, hasiči evakuovali 35 lidí a zachránili hodnoty za zhruba 30 milionů.",u:"domaci/v-peci-pod-snezkou-hori-strecha-hotelu-hasici-evakuovali-35-lidi-379188"},
+ {r:"E",t:"Pardubice: skoro tři sta zmanipulovaných zakázek",s:"Obžaloba popisuje škodu téměř 25 milionů korun. Soud s bývalým šéfem odboru dopravy má začít ještě letos.",u:"regiony/chybel-metr-zabradli-a-stalo-to-236-tisic-rika-zastupitel-k-zakazkam-v-pardubicich-379202"},
+ {r:"J",t:"Primátorem Jihlavy je opět Petr Ryška",s:"Zastupitelé ho zvolili 33 hlasy z 35. Do opozice odešlo ANO, pokračovat budou Piráti s Fórem Jihlava a SPD.",u:"regiony/primatorem-jihlavy-je-opet-petr-ryska-z-ods-379246"},
+ {r:"K",t:"Stát převezme karlovarské letiště",s:"Smlouvu podepsali hejtman a ministerstvo obrany. Letiště bude spravovat státní podnik LOM Praha a využívat ho bude i armáda.",u:"regiony/karlovarsky-kraj/stat-prevezme-karlovarske-letiste-vyuzivat-ho-bude-i-armada-378835"}
+];
+var cur="*";
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function chips(){
+  var c={};N.forEach(function(n){c[n.r]=(c[n.r]||0)+1});
+  var h='<button class="chip all" id="chip-all" data-r="*" aria-pressed="'+(cur==="*")+'"><span class="plate">ČR</span>Všechny <span class="n">'+N.length+'</span></button>';
+  Object.keys(R).forEach(function(k){
+    h+='<button class="chip" id="chip-'+k+'" data-r="'+k+'" aria-pressed="'+(cur===k)+'"><span class="plate">'+k+'</span>'+R[k]+' <span class="n">'+(c[k]||0)+'</span></button>';
+  });
+  document.getElementById("chips").innerHTML=h;
+}
+function cards(){
+  var list=N.filter(function(n){return cur==="*"||n.r===cur});
+  document.getElementById("grid").innerHTML=list.map(function(n,i){
+    return '<article class="card'+(i===0&&cur==="*"?' lead':'')+'"><div class="top"><span class="plate">'+n.r+'</span>'+R[n.r]+'</div><h2>'+esc(n.t)+'</h2><p>'+esc(n.s)+'</p><a class="more" href="'+B+n.u+'" target="_blank" rel="noopener">Číst na ČT24</a></article>';
+  }).join("");
+}
+document.getElementById("chips").addEventListener("click",function(e){
+  var b=e.target.closest(".chip");if(!b)return;
+  cur=b.getAttribute("data-r");chips();cards();
+  try{document.getElementById("chip-"+(cur==="*"?"all":cur)).focus()}catch(x){}
+});
+chips();cards();
+</script>
+
+</body></html>
